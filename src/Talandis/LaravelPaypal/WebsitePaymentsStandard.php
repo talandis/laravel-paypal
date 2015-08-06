@@ -30,7 +30,7 @@ class WebsitePaymentsStandard
 
     public function setIsSandbox()
     {
-        $this->test = true;
+        $this->isSandbox = true;
     }
 
     public function setConfiguration( $name = null )
@@ -47,6 +47,7 @@ class WebsitePaymentsStandard
             'currency',
             'language',
             'requestUrl',
+            'isSandbox',
             'paymentDataTransferToken'
         );
 
