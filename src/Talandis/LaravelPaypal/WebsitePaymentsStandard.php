@@ -268,7 +268,7 @@ class WebsitePaymentsStandard
 
         curl_close($ch);
 
-        return (strcmp($res, 'VERIFIED') == 0 && $this->businessEmail == $data['receiver_email'] && $data['payment_status'] == 'Completed');
+        return (strcmp($res, 'VERIFIED') == 0 && $this->businessEmail == $data['receiver_email'] );
     }
 
     protected function getIpnRequestString($data)
