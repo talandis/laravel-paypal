@@ -268,12 +268,12 @@ class WebsitePaymentsStandard
 
         curl_close($ch);
 
-        return (strcmp($res, 'VERIFIED') == 0 && $this->businessEmail == $data['receiver_email'] );
+        return (strcmp($res, 'VERIFIED') == 0);
     }
 
     protected function getIpnRequestString($data)
     {
-        $req = 'cmd=_notify-validate';
+        $req = '';
 
         if (function_exists('get_magic_quotes_gpc')) {
             $get_magic_quotes_exists = true;
@@ -284,8 +284,10 @@ class WebsitePaymentsStandard
             } else {
                 $value = urlencode($value);
             }
-            $req .= "&$key=$value";
+            $req .= "$key=$value&";
         }
+
+        $req .= 'cmd=_notify-validate';
 
         return $req;
     }
