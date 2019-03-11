@@ -35,7 +35,7 @@ class WebsitePaymentsStandard
 
     public function setConfiguration( $name = null )
     {
-        $configuration = \Config::get('laravel-paypal::payments');
+        $configuration = config('paypal');
 
         $fieldsMap = array(
             'certificateId',
@@ -51,18 +51,9 @@ class WebsitePaymentsStandard
             'paymentDataTransferToken'
         );
 
-        // Automatically read first configuration by default
-        if ( empty( $name )) {
-            $name = array_keys( $configuration )[0];
-        }
-
-        if ( !isset( $configuration[ $name ])) {
-            throw new ErrorException('Missing configuration: ' . $name );
-        }
-
         foreach ($fieldsMap as $configurationField) {
-            if (isset($configuration[ $name ][$configurationField])) {
-                $this->$configurationField = $configuration[ $name ][$configurationField];
+            if (isset($configuration[$configurationField])) {
+                $this->$configurationField = $configuration[$configurationField];
             }
         }
     }
@@ -272,6 +263,8 @@ class WebsitePaymentsStandard
 
         curl_close($ch);
 
+        $this->orderId = $data['custom'];
+
         return (strcmp($res, 'VERIFIED') == 0);
     }
 
@@ -294,6 +287,11 @@ class WebsitePaymentsStandard
         $req .= 'cmd=_notify-validate';
 
         return $req;
+    }
+
+    public function getOrderId()
+    {
+        return $this->orderId;
     }
 
 }
